@@ -1,7 +1,7 @@
 // Initialize dotenv
 require('dotenv').config();
 // Discord.js versions ^13.0 require us to explicitly define client intents
-const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, GatewayIntentBits, Attachment, AttachmentBuilder } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 // Goodmorning to our bot~
 client.on('ready', () => {
@@ -50,7 +50,7 @@ let randomCatStuff = [
 
 
 
-client.on('messageCreate', msg => {
+client.on('messageCreate', async msg => {
 
 	// You can view the msg object here with console.log(msg)
 	if (msg.author.username != 'Server Cat') {
@@ -101,9 +101,30 @@ client.on('messageCreate', msg => {
 		}
 
 		// images
-		let _msgattachment = (msg.attachments);
+		let _index = 0;
+		msg.attachments.forEach( attachment => {
+			_index++;
+			if (_index === 1 ) {
+				const url = attachment.url;
+			msg.channel.send({
+				content: url
+				});
+			console.log( url );
+			}
+			
+		});
+		_index = 0;
+		// msg.attachments.forEach(attachment => {
+			
+		// 	});
 		
-		console.log( _msgattachment )
+		
+
+		
+
+
+		//client.channels.cache.get(_channelid).send(_msgattachments);
+
 		
 		// if (msg.attachments == undefined) {
 		// 	msg.reply('nothing here')
