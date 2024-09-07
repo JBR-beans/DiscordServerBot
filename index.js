@@ -34,17 +34,18 @@ const response4b = "*prrt* :3c *catches light*";
 
 
 let messageOffsetTrigger = 5; // maybe make command that can change this in client on the fly, so kept as let
-let messageOffsetIndex = 0; // when this equals the trigger, send a random chat message event
+let messageOffsetTick = 0; // when this equals the trigger, send a random chat message event
 
 
 let randomCatStuff = [
 	"*curls up and goes eep*",
 	"*jumps off shelf onto table*",
-	"*sits on keyboard* saaaaaaaaaaaaaadsddddddddddddddddddddddddddddddddddddd",
+	"*sits on keyboard* afdeswcewsafddddddddddddddddddddddddddddddddddddd",
 	"*knocks phone off table*",
 	"*knocks potted plant off table*",
 	"*knocks pencil off table*",
-	"*knocks piece of paper off table*"
+	"*knocks piece of paper off table*",
+	":3"
 ];
 
 
@@ -54,23 +55,26 @@ client.on('messageCreate', msg => {
 	// You can view the msg object here with console.log(msg)
 	if (msg.author.username != 'Server Cat') {
 		
+		// message content processing
 		let _channelid = msg.channelId;
 		let _messagecontent = msg.content;
 		let _lowercasemessage = _messagecontent.toLowerCase();
+		
 
-		if (messageOffsetIndex >= messageOffsetTrigger) {
+		// random cat commands and such
+		if (messageOffsetTick >= messageOffsetTrigger) {
 
-			messageOffsetIndex = 0;
+			messageOffsetTick = 0;
 
-			console.log("reset messageOffsetIndex ", messageOffsetIndex);
+			console.log("reset messageOffsetIndex ", messageOffsetTick);
 
 			client.channels.cache.get(_channelid).send(randomCatStuff[RandomInt(randomCatStuff.length)]);
 
 		}
 
-		messageOffsetIndex++;
+		messageOffsetTick++;
 		
-		console.log("set messageOffsetIndex ", messageOffsetIndex);
+		console.log("set messageOffsetIndex ", messageOffsetTick);
 		console.log("ready for next message");
 		console.log();
 		
@@ -96,6 +100,25 @@ client.on('messageCreate', msg => {
 			console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response4b);
 		}
 
+		// images
+		let _msgattachment = (msg.attachments);
+		
+		console.log( _msgattachment )
+		
+		// if (msg.attachments == undefined) {
+		// 	msg.reply('nothing here')
+		// 	.then(() => console.log(`Replied to message "${msg.content}"`))
+		// 	.catch(console.error);
+		// }
+
+		// if (msg.attachments != undefined){
+		// 	msg.reply(msg.attachments)
+		// 	.then(() => console.log(`Replied to message "${msg.content}"`))
+		// 	.catch(console.error);
+		// }
+		
+		
+
 		// logging
 		console.log(client.channels.cache.get(_channelid)+' | '+msg.author.globalName+': '+_messagecontent);
 	}
@@ -105,3 +128,5 @@ client.on('messageCreate', msg => {
 function RandomInt(max) {
 	return Math.floor(Math.random() * max);
 }
+
+// converting image to ascii
