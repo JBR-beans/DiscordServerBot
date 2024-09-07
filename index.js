@@ -10,6 +10,14 @@ client.on('ready', () => {
 // Log In our bot
 client.login(process.env.CLIENT_TOKEN);
 
+client.on("guildCreate", guild => {
+    console.log("Joined a new guild: " + guild.name);
+});
+
+client.on("guildDelete", guild => {
+    console.log("Left a guild: " + guild.name);
+});
+
 const command1 = "*shakes treat bag*";
 const command2 = "where's the kitty?";
 const command3 = "food"; // contains
@@ -39,37 +47,32 @@ let randomCatStuff = [
 	"*knocks piece of paper off table*"
 ];
 
-function getRandomInt(max) {
-	return Math.floor(Math.random() * max);
-  }
+
 
 client.on('messageCreate', msg => {
 
 	// You can view the msg object here with console.log(msg)
 	if (msg.author.username != 'Server Cat') {
-
+		
 		let _channelid = msg.channelId;
 		let _messagecontent = msg.content;
 		let _lowercasemessage = _messagecontent.toLowerCase();
 
 		if (messageOffsetIndex >= messageOffsetTrigger) {
 
-
 			messageOffsetIndex = 0;
 
 			console.log("reset messageOffsetIndex ", messageOffsetIndex);
 
-			client.channels.cache.get(_channelid).send(randomCatStuff[getRandomInt(randomCatStuff.length)]);
+			client.channels.cache.get(_channelid).send(randomCatStuff[RandomInt(randomCatStuff.length)]);
 
 		}
 
 		messageOffsetIndex++;
+		
 		console.log("set messageOffsetIndex ", messageOffsetIndex);
 		console.log("ready for next message");
 		console.log();
-
-		
-		
 		
 		if (_lowercasemessage.includes(command1)) {
 			client.channels.cache.get(_channelid).send(response1);
@@ -95,7 +98,10 @@ client.on('messageCreate', msg => {
 
 		// logging
 		console.log(client.channels.cache.get(_channelid)+' | '+msg.author.globalName+': '+_messagecontent);
-
-
 	}
 });
+
+// utility
+function RandomInt(max) {
+	return Math.floor(Math.random() * max);
+}
