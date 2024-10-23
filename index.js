@@ -29,6 +29,7 @@ const response1 = "*runs to you* meoooow :3";
 const response2 = "*Pukes on the carpet cutely* :3c mrrt"; // thank you seika
 const response3 = "*takes a bite when you're not looking*";
 
+const response4 = "*jumps around to catch it* n<(^w^)>n" + '\n' + "*prrt* :3c *catches light*";
 const response4a = "*jumps around to catch it* n<(^w^)>n";
 const response4b = "*prrt* :3c *catches light*";
 
@@ -73,7 +74,9 @@ client.on('messageCreate', async msg => {
 		}
 
 		messageOffsetTick++;
-		
+		client.channels.cache.get(_channelid).send(ServerCatMessageResponse(msg));
+		console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+ServerCatMessageResponse(msg));
+
 		console.log("set messageOffsetIndex ", messageOffsetTick);
 		console.log("ready for next message");
 		console.log();
@@ -154,4 +157,36 @@ function RandomInt(max) {
 	return Math.floor(Math.random() * max);
 }
 
+function ServerCatMessageResponse(msg) {
+
+	var response;
+
+	let _lowercasemessage = msg.content.toLowerCase();
+
+	if (_lowercasemessage.includes(command1)) {
+		response = response1;
+		//client.channels.cache.get(_channelid).send(response1);
+		//console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response1);
+	}
+
+	if (_lowercasemessage.includes(command2)){
+		respone = response2;
+		//client.channels.cache.get(_channelid).send(response2);
+		//console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response2);
+	}
+
+	if (_lowercasemessage.includes(command3)){
+		response = response3;
+		//client.channels.cache.get(_channelid).send(response3);
+		//console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response3);
+	}
+
+	if (_lowercasemessage.includes(command4a) || _lowercasemessage.includes(command4b)){
+		response = response4;
+		//client.channels.cache.get(_channelid).send(response4);
+		//console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response4);
+	}
+
+	return response;
+}
 // converting image to ascii
