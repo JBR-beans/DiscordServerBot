@@ -74,78 +74,40 @@ client.on('messageCreate', async msg => {
 		}
 
 		messageOffsetTick++;
-		client.channels.cache.get(_channelid).send(ServerCatMessageResponse(msg));
-		console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+ServerCatMessageResponse(msg));
 
+		let response = ServerCatMessageResponse(msg);
+		
+		if (response == undefined) {
+			response = "no response";
+		}
+		
+		if (response != undefined) {
+			client.channels.cache.get(_channelid).send(response);
+			console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response);
+		}
+		
 		console.log("set messageOffsetIndex ", messageOffsetTick);
 		console.log("ready for next message");
 		console.log();
-		
-		if (_lowercasemessage.includes(command1)) {
-			client.channels.cache.get(_channelid).send(response1);
-			console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response1);
-		}
-
-		if (_lowercasemessage.includes(command2)){
-			client.channels.cache.get(_channelid).send(response2);
-			console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response2);
-		}
-
-		if (_lowercasemessage.includes(command3)){
-			client.channels.cache.get(_channelid).send(response3);
-			console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response3);
-		}
-
-		if (_lowercasemessage.includes(command4a) || _lowercasemessage.includes(command4b)){
-			client.channels.cache.get(_channelid).send(response4a);
-			client.channels.cache.get(_channelid).send(response4b);
-			console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response4a);
-			console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response4b);
-		}
 
 		// images
 		let _index = 0;
-		msg.attachments.forEach( attachment => {
+		let msg_attachment = msg.attachments.forEach( attachment => {
 			_index++;
 			if (_index === 1 ) {
 				const url = attachment.url;
-				// want to get the image from the url and process it
-				// specifically, the task is to convert it to ascii art
-				// it must be surrounded with triple backticks (``` and ```) in order to be formatted properly
-
-				
-
-				// just sending the image back and logging for debug purposes
 			msg.channel.send({
 				content: url
 				});
+				
 			console.log( url );
 			}
-			
+
 		});
+		if (msg_attachment != undefined) {
+			ProcessImage(msg);
+		}
 		_index = 0;
-		
-		
-
-		
-
-
-		//client.channels.cache.get(_channelid).send(_msgattachments);
-
-		
-		// if (msg.attachments == undefined) {
-		// 	msg.reply('nothing here')
-		// 	.then(() => console.log(`Replied to message "${msg.content}"`))
-		// 	.catch(console.error);
-		// }
-
-		// if (msg.attachments != undefined){
-		// 	msg.reply(msg.attachments)
-		// 	.then(() => console.log(`Replied to message "${msg.content}"`))
-		// 	.catch(console.error);
-		// }
-		
-		
 
 		// logging
 		console.log(client.channels.cache.get(_channelid)+' | '+msg.author.globalName+': '+_messagecontent);
@@ -190,3 +152,12 @@ function ServerCatMessageResponse(msg) {
 	return response;
 }
 // converting image to ascii
+
+function ProcessImage(attachment) {
+	fs.writeFile("D:\CodeRepo\DiscordServerBot-main\DiscordServerBot-main\tmpimgs", attachment, err => {
+		if (err) {
+		  console.error(err);
+		} else {
+		  // file written successfully
+		}
+	  });
