@@ -48,100 +48,106 @@ let randomCatStuff = [
 	":3"
 ];
 
-
+// cat tree text channel in meow meow category only
+const _catTreeID = '1282279204259627102';
 
 client.on('messageCreate', async msg => {
 
 	// You can view the msg object here with console.log(msg)
 	if (msg.author.username != 'Server Cat') {
 		
+		
 		// message content processing
 		let _channelid = msg.channelId;
-		let _messagecontent = msg.content;
-		let _lowercasemessage = _messagecontent.toLowerCase();
-		
-
-		// random cat commands and such
-		if (messageOffsetTick >= messageOffsetTrigger) {
-
-			messageOffsetTick = 0;
-
-			console.log("reset messageOffsetIndex ", messageOffsetTick);
-
-			client.channels.cache.get(_channelid).send(randomCatStuff[RandomInt(randomCatStuff.length)]);
-
-		}
-
-		messageOffsetTick++;
-		
-		console.log("set messageOffsetIndex ", messageOffsetTick);
-		console.log("ready for next message");
-		console.log();
-		
-		if (_lowercasemessage.includes(command1)) {
-			client.channels.cache.get(_channelid).send(response1);
-			console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response1);
-		}
-
-		if (_lowercasemessage.includes(command2)){
-			client.channels.cache.get(_channelid).send(response2);
-			console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response2);
-		}
-
-		if (_lowercasemessage.includes(command3)){
-			client.channels.cache.get(_channelid).send(response3);
-			console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response3);
-		}
-
-		if (_lowercasemessage.includes(command4a) || _lowercasemessage.includes(command4b)){
-			client.channels.cache.get(_channelid).send(response4a);
-			client.channels.cache.get(_channelid).send(response4b);
-			console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response4a);
-			console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response4b);
-		}
-
-		// images
-		let _index = 0;
-		msg.attachments.forEach( attachment => {
-			_index++;
-			if (_index === 1 ) {
-				const url = attachment.url;
-			msg.channel.send({
-				content: url
-				});
-			console.log( url );
+		if (_channelid === _catTreeID) {
+			let _messagecontent = msg.content;
+			let _lowercasemessage = _messagecontent.toLowerCase();
+			
+	
+			// random cat commands and such
+			if (messageOffsetTick >= messageOffsetTrigger) {
+	
+				messageOffsetTick = 0;
+	
+				console.log("reset messageOffsetIndex ", messageOffsetTick);
+	
+				client.channels.cache.get(_channelid).send(randomCatStuff[RandomInt(randomCatStuff.length)]);
+	
 			}
+	
+			messageOffsetTick++;
 			
-		});
-		_index = 0;
-		// msg.attachments.forEach(attachment => {
+			console.log("set messageOffsetIndex ", messageOffsetTick);
+			console.log("ready for next message");
+			console.log();
 			
-		// 	});
-		
-		
-
-		
-
-
-		//client.channels.cache.get(_channelid).send(_msgattachments);
-
-		
-		// if (msg.attachments == undefined) {
-		// 	msg.reply('nothing here')
-		// 	.then(() => console.log(`Replied to message "${msg.content}"`))
-		// 	.catch(console.error);
-		// }
-
-		// if (msg.attachments != undefined){
-		// 	msg.reply(msg.attachments)
-		// 	.then(() => console.log(`Replied to message "${msg.content}"`))
-		// 	.catch(console.error);
-		// }
-		
-		
-
-		// logging
-		console.log(client.channels.cache.get(_channelid)+' | '+msg.author.globalName+': '+_messagecontent);
+			if (_lowercasemessage.includes(command1)) {
+				client.channels.cache.get(_channelid).send(response1);
+				console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response1);
+			}
+	
+			if (_lowercasemessage.includes(command2)){
+				client.channels.cache.get(_channelid).send(response2);
+				console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response2);
+			}
+	
+			if (_lowercasemessage.includes(command3)){
+				client.channels.cache.get(_channelid).send(response3);
+				console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response3);
+			}
+	
+			if (_lowercasemessage.includes(command4a) || _lowercasemessage.includes(command4b)){
+				client.channels.cache.get(_channelid).send(response4a);
+				client.channels.cache.get(_channelid).send(response4b);
+				console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response4a);
+				console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response4b);
+			}
+	
+			// images
+			let _index = 0;
+			msg.attachments.forEach( attachment => {
+				_index++;
+				if (_index === 1 ) {
+					const url = attachment.url;
+					// want to get the image from the url and process it
+					// specifically, the task is to convert it to ascii art
+					// it must be surrounded with triple backticks (``` and ```) in order to be formatted properly
+	
+					// just sending the image back and logging for debug purposes
+				msg.channel.send({
+					content: url
+					});
+				console.log( url );
+				}
+				
+			});
+			_index = 0;
+			
+			
+	
+			
+	
+	
+			//client.channels.cache.get(_channelid).send(_msgattachments);
+	
+			
+			// if (msg.attachments == undefined) {
+			// 	msg.reply('nothing here')
+			// 	.then(() => console.log(`Replied to message "${msg.content}"`))
+			// 	.catch(console.error);
+			// }
+	
+			// if (msg.attachments != undefined){
+			// 	msg.reply(msg.attachments)
+			// 	.then(() => console.log(`Replied to message "${msg.content}"`))
+			// 	.catch(console.error);
+			// }
+			
+			
+	
+			// logging
+			console.log(client.channels.cache.get(_channelid)+' | '+msg.author.globalName+': '+_messagecontent);
+		}
 	}
 });
 
