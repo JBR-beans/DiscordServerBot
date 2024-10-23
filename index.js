@@ -1,6 +1,9 @@
 // Initialize dotenv
 require('dotenv').config();
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1bea2f7dcb77a9662fddc05d7c174d6bb8f47cb8
 // Discord.js versions ^13.0 require us to explicitly define client intents
 const { Client, GatewayIntentBits, Attachment, AttachmentBuilder } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
@@ -30,7 +33,12 @@ const response1 = "*runs to you* meoooow :3";
 const response2 = "*Pukes on the carpet cutely* :3c mrrt"; // thank you seika
 const response3 = "*takes a bite when you're not looking*";
 
+<<<<<<< HEAD
 const response4 = "*jumps around to catch it* n<(^w^)>n" + '\n' + "*prrt* :3c *catches light*";
+=======
+const response4a = "*jumps around to catch it* n<(^w^)>n";
+const response4b = "*prrt* :3c *catches light*";
+>>>>>>> 1bea2f7dcb77a9662fddc05d7c174d6bb8f47cb8
 
 
 let messageOffsetTrigger = 5; // maybe make command that can change this in client on the fly, so kept as let
@@ -53,6 +61,7 @@ let randomCatStuff = [
 client.on('messageCreate', async msg => {
 
 	// You can view the msg object here with console.log(msg)
+<<<<<<< HEAD
 	if (msg.author.username != 'Server Cat')  {
 		
 		// message content processing
@@ -132,6 +141,97 @@ client.on('messageCreate', async msg => {
 			console.log(client.channels.cache.get(_channelid)+' | '+msg.author.globalName+': '+_messagecontent);
 		}
 
+=======
+	if (msg.author.username != 'Server Cat') {
+		
+		// message content processing
+		let _channelid = msg.channelId;
+		let _messagecontent = msg.content;
+		let _lowercasemessage = _messagecontent.toLowerCase();
+		
+
+		// random cat commands and such
+		if (messageOffsetTick >= messageOffsetTrigger) {
+
+			messageOffsetTick = 0;
+
+			console.log("reset messageOffsetIndex ", messageOffsetTick);
+
+			client.channels.cache.get(_channelid).send(randomCatStuff[RandomInt(randomCatStuff.length)]);
+
+		}
+
+		messageOffsetTick++;
+		
+		console.log("set messageOffsetIndex ", messageOffsetTick);
+		console.log("ready for next message");
+		console.log();
+		
+		if (_lowercasemessage.includes(command1)) {
+			client.channels.cache.get(_channelid).send(response1);
+			console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response1);
+		}
+
+		if (_lowercasemessage.includes(command2)){
+			client.channels.cache.get(_channelid).send(response2);
+			console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response2);
+		}
+
+		if (_lowercasemessage.includes(command3)){
+			client.channels.cache.get(_channelid).send(response3);
+			console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response3);
+		}
+
+		if (_lowercasemessage.includes(command4a) || _lowercasemessage.includes(command4b)){
+			client.channels.cache.get(_channelid).send(response4a);
+			client.channels.cache.get(_channelid).send(response4b);
+			console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response4a);
+			console.log(client.channels.cache.get(_channelid)+' | '+"Server Cat"+': '+response4b);
+		}
+
+		// images
+		let _index = 0;
+		msg.attachments.forEach( attachment => {
+			_index++;
+			if (_index === 1 ) {
+				const url = attachment.url;
+			msg.channel.send({
+				content: url
+				});
+			console.log( url );
+			}
+			
+		});
+		_index = 0;
+		// msg.attachments.forEach(attachment => {
+			
+		// 	});
+		
+		
+
+		
+
+
+		//client.channels.cache.get(_channelid).send(_msgattachments);
+
+		
+		// if (msg.attachments == undefined) {
+		// 	msg.reply('nothing here')
+		// 	.then(() => console.log(`Replied to message "${msg.content}"`))
+		// 	.catch(console.error);
+		// }
+
+		// if (msg.attachments != undefined){
+		// 	msg.reply(msg.attachments)
+		// 	.then(() => console.log(`Replied to message "${msg.content}"`))
+		// 	.catch(console.error);
+		// }
+		
+		
+
+		// logging
+		console.log(client.channels.cache.get(_channelid)+' | '+msg.author.globalName+': '+_messagecontent);
+>>>>>>> 1bea2f7dcb77a9662fddc05d7c174d6bb8f47cb8
 	}
 });
 
@@ -140,6 +240,7 @@ function RandomInt(max) {
 	return Math.floor(Math.random() * max);
 }
 
+<<<<<<< HEAD
 function ServerCatMessageResponse(msg) {
 
 	var response;
@@ -172,4 +273,6 @@ function ServerCatMessageResponse(msg) {
 
 	return response;
 }
+=======
+>>>>>>> 1bea2f7dcb77a9662fddc05d7c174d6bb8f47cb8
 // converting image to ascii
