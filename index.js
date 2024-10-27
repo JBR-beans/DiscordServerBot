@@ -1,8 +1,12 @@
 // Initialize dotenv
 require('dotenv').config();
+const { Console } = require('console');
+const fs = require('fs');
+const request = require(`request`);
 // Discord.js versions ^13.0 require us to explicitly define client intents
 const { Client, GatewayIntentBits, Attachment, AttachmentBuilder } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
+
 // Goodmorning to our bot~
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
@@ -58,10 +62,11 @@ client.on('messageCreate', async msg => {
 		
 		// message content processing
 		let _channelid = msg.channelId;
-		let _messagecontent = msg.content;
-		let _lowercasemessage = _messagecontent.toLowerCase();
-		
 
+		if ( _channelid == "1282279204259627102" || _channelid == "1191181380604923954") {
+			let _messagecontent = msg.content;
+			let _lowercasemessage = _messagecontent.toLowerCase();
+		
 		// random cat commands and such
 		if (messageOffsetTick >= messageOffsetTrigger) {
 
@@ -74,6 +79,8 @@ client.on('messageCreate', async msg => {
 		}
 
 		messageOffsetTick++;
+
+		GetAttachment(msg);
 
 		let response = ServerCatMessageResponse(msg);
 		
@@ -89,28 +96,13 @@ client.on('messageCreate', async msg => {
 		console.log("set messageOffsetIndex ", messageOffsetTick);
 		console.log("ready for next message");
 		console.log();
-
+		
 		// images
-		let _index = 0;
-		let msg_attachment = msg.attachments.forEach( attachment => {
-			_index++;
-			if (_index === 1 ) {
-				const url = attachment.url;
-			msg.channel.send({
-				content: url
-				});
-				
-			console.log( url );
-			}
-
-		});
-		if (msg_attachment != undefined) {
-			ProcessImage(msg);
-		}
-		_index = 0;
+		
 
 		// logging
 		console.log(client.channels.cache.get(_channelid)+' | '+msg.author.globalName+': '+_messagecontent);
+	}
 	}
 });
 
@@ -152,12 +144,68 @@ function ServerCatMessageResponse(msg) {
 	return response;
 }
 // converting image to ascii
+function GetAttachment(msg){
+	
+	let url;
+	let file;
+	let _index = 0;
 
-function ProcessImage(attachment) {
-	fs.writeFile("D:\CodeRepo\DiscordServerBot-main\DiscordServerBot-main\tmpimgs", attachment, err => {
-		if (err) {
-		  console.error(err);
-		} else {
-		  // file written successfully
+	if (msg.attachments != undefined) {
+		let message_attach = msg.attachments.forEach( attachment => {
+
+			// only process up to max index, then just count the rest
+			_index++;
+	
+			if (_index === 1 ) {
+				url = attachment.url;
+				file = attachment.name;
+			msg.channel.send({
+				content: url
+				});
+	
+				// logging
+			console.log( url );
+			}
+		});
+	
+		_index = 0;
+		
+		// download
+		if (url != undefined) {
+			console.log("File detected")
+			download(url,file);
 		}
-	  });
+	}
+	
+	
+}
+function ProcessImage(msg_attachment) {
+	// fs.writeFile("D:\CodeRepo\DiscordServerBot-main\DiscordServerBot-main\tmpimgs", attachment, err => {
+	// 	if (err) {
+	// 	  console.error(err);
+	// 	} else {
+	// 	  // file written successfully
+	// 	}
+	//   });
+	console.log("file detected");
+
+	//   msg.attachments.forEach(a => {
+	// 	  fs.writeFileSync(`./${a.name}`, a.file); // Write the file to the system synchronously.
+	//   });
+	download(msg_attachment.url);//Function I will show later
+	console.log(" File checked");
+        if(msg_attachment.filename === `png`){//Download only png (customize this)
+            
+        
+    }
+	download()
+	  console.log("File process attempted");
+
+	}
+
+	function download(url,file){
+		request.get(url)
+			.on('error', console.error)
+			.pipe(fs.createWriteStream(`./${file.name}`));
+			console.log("File downloaded");
+	}
