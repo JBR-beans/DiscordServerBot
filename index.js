@@ -153,7 +153,7 @@ function GetAttachment(msg){
 	if (msg.attachments != undefined) {
 		let message_attach = msg.attachments.forEach( attachment => {
 
-			// only process up to max index, then just count the rest
+			// process the attachment at this position in the array
 			_index++;
 	
 			if (_index === 1 ) {
@@ -180,21 +180,11 @@ function GetAttachment(msg){
 	
 }
 function ProcessImage(msg_attachment) {
-	// fs.writeFile("D:\CodeRepo\DiscordServerBot-main\DiscordServerBot-main\tmpimgs", attachment, err => {
-	// 	if (err) {
-	// 	  console.error(err);
-	// 	} else {
-	// 	  // file written successfully
-	// 	}
-	//   });
 	console.log("file detected");
 
-	//   msg.attachments.forEach(a => {
-	// 	  fs.writeFileSync(`./${a.name}`, a.file); // Write the file to the system synchronously.
-	//   });
-	download(msg_attachment.url);//Function I will show later
+	download(msg_attachment.url);
 	console.log(" File checked");
-        if(msg_attachment.filename === `png`){//Download only png (customize this)
+        if(msg_attachment.filename === `png`){
             
         
     }
